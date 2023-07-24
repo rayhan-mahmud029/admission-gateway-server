@@ -32,6 +32,15 @@ async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
+
+        // collections
+        const collegesCollection = client.db('admission-gateway').collection('colleges');
+
+
+        app.get('/colleges', async (req, res) => {
+            const result = await collegesCollection.find().toArray();
+            res.send(result)
+        })
        
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
@@ -42,6 +51,8 @@ async function run() {
 }
 run().catch(console.dir);
 // MONGO DB CODE ENDS HERE
+
+
 
 app.listen(port, () => {
     console.log('Server running in port ', port);
